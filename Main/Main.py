@@ -16,6 +16,7 @@ Base.metadata.create_all(bind=engine)
 
 SECRET_KEY = "mysecret"
 ALGO = "HS256"
+TOKEN_TIME=60*24
 
 
 oauth2 = OAuth2PasswordBearer(tokenUrl="/login")
