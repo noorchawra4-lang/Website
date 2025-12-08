@@ -1,9 +1,8 @@
-
-from datetime import datetime
 from pydantic import BaseModel
+from datetime import datetime
 
 
-class OrderBase(BaseModel):
+class OrderCreate(BaseModel):
     customer_id: int
     category_id: int
     manufacture_id: int
@@ -11,16 +10,11 @@ class OrderBase(BaseModel):
     price_per_unit: float
 
 
-class OrderCreate(OrderBase):
-    pass
-
-
 class OrderOut(BaseModel):
     id: int
     total_price: float
     status: str
     created_at: datetime
-
     customer_name: str
     category_name: str
     manufacture_name: str

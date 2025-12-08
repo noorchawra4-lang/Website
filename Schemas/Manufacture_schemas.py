@@ -1,28 +1,26 @@
-
-from typing import Optional
 from pydantic import BaseModel
+from typing import Optional
 
 
-class ManufactureBase(BaseModel):
+class ManufactureCreate(BaseModel):
     name: str
     address: Optional[str] = None
     contact: Optional[str] = None
-
-
-class ManufactureCreate(ManufactureBase):
-    pass
 
 
 class ManufactureUpdate(BaseModel):
     name: Optional[str] = None
     address: Optional[str] = None
     contact: Optional[str] = None
-    
+    is_active: Optional[bool] = None
 
 
-class ManufactureOut(ManufactureBase):
+class ManufactureOut(BaseModel):
     id: int
-    
+    name: str
+    address: Optional[str]
+    contact: Optional[str]
+    is_active: bool
 
     class Config:
         orm_mode = True

@@ -1,25 +1,22 @@
-
-from typing import Optional
 from pydantic import BaseModel
+from typing import Optional
 
 
-class CategoryBase(BaseModel):
+class CategoryCreate(BaseModel):
     name: str
     description: Optional[str] = None
-
-
-class CategoryCreate(CategoryBase):
-    pass
 
 
 class CategoryUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    
+    is_active: Optional[bool] = None
 
 
-class CategoryOut(CategoryBase):
+class CategoryOut(BaseModel):
     id: int
+    name: str
+    description: Optional[str]
     is_active: bool
 
     class Config:

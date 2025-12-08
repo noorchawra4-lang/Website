@@ -1,5 +1,3 @@
-
-from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 
@@ -19,8 +17,3 @@ class UserOut(UserBase):
 
     class Config:
         orm_mode = True
-
-
-class OTPVerify(BaseModel):
-    email: EmailStr
-    otp: str
