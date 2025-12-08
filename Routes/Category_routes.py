@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from Database.database import get_db
-from Controllers.Category import *
+from Controllers.Category import add_category,get_all_categories,get_category_by_id,delete_category,update_category
 from Schemas.Category_schemas import CategoryCreate, CategoryUpdate, CategoryOut
 from Main.Main import get_user_by_token  \
 

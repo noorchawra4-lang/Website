@@ -65,9 +65,11 @@ from Routes.Login_routes import router as login_router
 from Routes.Category_routes import router as cat_router
 from Routes.Manufacture_routes import router as manu_router
 from Routes.Order_routes import router as order_router
+from Routes.Customer_routes import router as customer_router
 
 app.include_router(reg_router)
 app.include_router(login_router)
 app.include_router(cat_router)
 app.include_router(manu_router)
 app.include_router(order_router)
+app.include_router(customer_router)

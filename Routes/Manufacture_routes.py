@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from Database.database import get_db
-from Controllers.Manufacture import *
+from Controllers.Manufacture import delete_manufacture,get_manufacture_by_id,get_all_manufactures,add_manufacture,update_manufacture
 from Schemas.Manufacture_schemas import ManufactureCreate, ManufactureUpdate, ManufactureOut
 from Main.Main import get_user_by_token
 
