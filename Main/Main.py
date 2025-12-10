@@ -3,21 +3,22 @@ from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-from Database.database import Base, engine
-from Models import Models
 
-# ---------------- APP START ----------------
+from Database.database import Base, engine, get_db
+
+
+# ----------- APP START -------------
 
 app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
-# ---------------- SECURITY ----------------
+
+# ----------- SECURITY -------------
 
 SECRET_KEY = "mysecret"
 ALGO = "HS256"
-TOKEN_TIME=60*24
-
+TOKEN_TIME = 60 * 24
 
 oauth2 = OAuth2PasswordBearer(tokenUrl="/login")
 
@@ -39,37 +40,44 @@ def create_token(data, time=None):
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGO)
 
 
-def get_user_by_token(token: str = Depends(oauth2), db=Depends(Models.get_db)):
-    error = HTTPException(status_code=401, detail="Invalid token")
+# ----------- TOKEN VERIFY -------------
+
+def get_user_by_token(token: str = Depends(oauth2), db=Depends(get_db)):
+    wrong = HTTPException(status_code=401, detail="Invalid token")
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGO])
         uid = payload.get("sub")
         if not uid:
-            raise error
+            raise wrong
     except JWTError:
-        raise error
+        raise wrong
 
-    from Models.Models import Register
-    user = db.query(Register).filter(Register.id == int(uid)).first()
+   
+    from Models.Models import User
+
+    user = db.query(User).filter(User.id == int(uid)).first()
     if not user:
-        raise error
+        raise wrong
 
     return user
 
 
-# ---------------- INCLUDE ROUTERS ----------------
+# ----------- ROUTES IMPORT -------------
 
 from Routes.Register_routes import router as reg_router
 from Routes.Login_routes import router as login_router
-from Routes.Category_routes import router as cat_router
+from Routes.Category_routes import router as category_router
 from Routes.Manufacture_routes import router as manu_router
 from Routes.Order_routes import router as order_router
 from Routes.Customer_routes import router as customer_router
 
+
+# ----------- ROUTES ADD -------------
+
 app.include_router(reg_router)
 app.include_router(login_router)
-app.include_router(cat_router)
+app.include_router(category_router)
 app.include_router(manu_router)
 app.include_router(order_router)
 app.include_router(customer_router)
